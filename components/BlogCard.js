@@ -23,7 +23,7 @@ export default function BlogPost({title, author, coverPhoto, datePublished, slug
                         <h3>{author.name}</h3>
                     </div>
                 </div>
-                <div className="styles.date">
+                <div className={styles.date}>
                     <h3>{datePublished}</h3>
                 
                     
