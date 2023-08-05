@@ -2,6 +2,27 @@ import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import { GraphQLClient, gql } from "graphql-request";
 import  BlogCard  from '../components/BlogCard.js';
+import { GetStaticProps, InferGetStaticPropsType } from 'next';
+
+interface Author {
+  name: string;
+  avatar: {
+    url: string;
+  };
+}
+
+interface CoverPhoto {
+  url: string;
+}
+
+interface Post {
+  author: Author;
+  coverPhoto: CoverPhoto;
+  id: string;
+  title: string;
+  datePublished: string;
+  slug: string;
+}
 
 
 const graphcms = new GraphQLClient(
@@ -27,20 +48,22 @@ const QUERY = gql`
 }
 `;
 
-export async function getStaticProps(){
-  const { posts } = await graphcms.request(QUERY);
+
+
+export const getStaticProps: GetStaticProps = async () => {
+  const { posts } = await graphcms.request<{ posts: Post[] }>(QUERY);
   return {
     props: {
       posts,
     },
     revalidate: 10,
   };
-}
+};
 
 
 
-export default function Home({posts}) {
-return (
+export default function Home({ posts }: InferGetStaticPropsType<typeof getStaticProps>) {
+  return (
     <div className={styles.container}>
       <Head>
         <title>Create Next App</title>
@@ -49,21 +72,18 @@ return (
         <link rel="icon" href="/favicon.ico" />
       </Head>
       
-      
       <main className={styles.main}>
         {posts.map((post) => (
           <BlogCard 
-          title={post.title} 
-          author={post.author} 
-          coverPhoto={post.coverPhoto} 
-          key={post.id} 
-          datePublished={post.datePublished} 
-          slug={post.slug}/>
+            title={post.title} 
+            author={post.author} 
+            coverPhoto={post.coverPhoto} 
+            key={post.id} 
+            datePublished={post.datePublished} 
+            slug={post.slug}
+          />
         ))}
       </main>
-    
-    
-    
     </div>
   );
 };
