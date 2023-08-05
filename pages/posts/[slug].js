@@ -1,4 +1,4 @@
-import styles from '../../styles/Slug.module.css';
+import styles from '../../styles/Slug.Module.css';
 import { GraphQLClient, gql } from "graphql-request";
 import Image from 'next/image';
 
@@ -76,7 +76,6 @@ export default function BlogPost({ post }) {
             dangerouslySetInnerHTML={{__html: post.content.html}}>
             </div>
              <div className={styles.name}>
-                <Image className={styles.avatar} src={post.author.avatar.url} alt=""/>
                 <div className={styles.authtext}>
                     <h6>By {post.author.name}</h6>
                     <h6 className={styles.date}>{post.datePublished}</h6>
