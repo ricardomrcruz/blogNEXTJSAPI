@@ -1,8 +1,7 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import { GraphQLClient, gql } from "graphql-request";
-import  BlogCard  from '../components/BlogCard.js';
-import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import BlogCard from '../components/BlogCard.js';
 
 interface Author {
   name: string;
@@ -23,7 +22,6 @@ interface Post {
   datePublished: string;
   slug: string;
 }
-
 
 const graphcms = new GraphQLClient(
   "https://api-eu-west-2.hygraph.com/v2/clbimpglo1rgi01uredh6do8w/master");
@@ -48,21 +46,17 @@ const QUERY = gql`
 }
 `;
 
-
-
-export const getStaticProps: GetStaticProps = async () => {
-  const { posts } = await graphcms.request<{ posts: Post[] }>(QUERY);
+export async function getStaticProps(){
+  const { posts } = await graphcms.request(QUERY);
   return {
     props: {
       posts,
     },
     revalidate: 10,
   };
-};
+}
 
-
-
-export default function Home({ posts }: InferGetStaticPropsType<typeof getStaticProps>) {
+const Home: React.FC<{ posts: Post[] }> = ({ posts }) => {
   return (
     <div className={styles.container}>
       <Head>
@@ -71,19 +65,25 @@ export default function Home({ posts }: InferGetStaticPropsType<typeof getStatic
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      
+
       <main className={styles.main}>
         {posts.map((post) => (
-          <BlogCard 
-            title={post.title} 
-            author={post.author} 
-            coverPhoto={post.coverPhoto} 
-            key={post.id} 
-            datePublished={post.datePublished} 
+          <BlogCard
+            title={post.title}
+            author={post.author}
+            coverPhoto={post.coverPhoto}
+            key={post.id}
+            datePublished={post.datePublished}
             slug={post.slug}
           />
         ))}
       </main>
+
     </div>
   );
 };
+
+export default Home;
+
+
+
