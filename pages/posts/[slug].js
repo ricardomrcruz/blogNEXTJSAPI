@@ -69,14 +69,14 @@ export default function BlogPost({ post }) {
         <main className={styles.blog}>
             <Image src={post.coverPhoto.url} className={styles.cover} alt=""  />
 
-            {/* <img src={post.coverPhoto.url} className={styles.cover} alt=""/> */}
+            
     
             <h2>{post.title}</h2>
             <div className={styles.content}
             dangerouslySetInnerHTML={{__html: post.content.html}}>
             </div>
              <div className={styles.name}>
-                <Img className={styles.avatar} src={post.author.avatar.url} alt=""/>
+                <Image className={styles.avatar} src={post.author.avatar.url} alt=""/>
                 <div className={styles.authtext}>
                     <h6>By {post.author.name}</h6>
                     <h6 className={styles.date}>{post.datePublished}</h6>
