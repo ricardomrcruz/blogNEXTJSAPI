@@ -1,6 +1,6 @@
-import styles from '../../styles/Slug.Module.css';
 import { GraphQLClient, gql } from "graphql-request";
 import Image from 'next/image';
+import '../styles/Slug.module.css';
 
 
 
