@@ -1,5 +1,6 @@
 import styles from '../../styles/Slug.module.css';
 import { GraphQLClient, gql } from "graphql-request";
+import Image from 'next/image';
 
 
 
@@ -66,7 +67,9 @@ export async function getStaticProps({params}){
 export default function BlogPost({ post }) {
     return(
         <main className={styles.blog}>
-            <img src={post.coverPhoto.url} className={styles.cover} alt=""/>
+            <Image src={post.coverPhoto.url} className={styles.cover} alt=""  />
+
+            {/* <img src={post.coverPhoto.url} className={styles.cover} alt=""/> */}
     
             <h2>{post.title}</h2>
             <div className={styles.content}
